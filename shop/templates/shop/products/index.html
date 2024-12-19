@@ -1,0 +1,49 @@
+{% extends 'shop/layouts/main.html' %}
+
+{% block title %}
+ShopKart | Online Shopping
+{% endblock title %}
+
+{% block content %}
+<section class="bg-light py-4 my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-3">{{ category_name }} Products</h4>
+                <hr style="border-color:#b8bfc2;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="{% url 'collections' %}">Collections</a></li>
+                    </ol>
+                </nav>
+                    {% include 'shop/inc/message.html' %}
+            </div>
+
+            <!-- Ensure Flexbox Centering of Cards -->
+            <div class="row">
+                {% for item in products %}
+                <div class="col col-md-3">
+                    <div class="card my-3">
+                        <img src="{{ item.product_image.url }}" class="img-fluid" alt="Categories">
+                        <a href="{% url 'product_details' item.category.name item.name %}">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">{{ item.name }}</h5>
+                                <p class="card-text">
+                                    <span class="float-start old_price"><s>Rs.{{ item.original_price | floatformat:0 }}</s></span>
+                                    <span class="float-end new_price">Rs.{{ item.selling_price | floatformat:0 }}</span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div>
+                    <h1>No products found</h1>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
